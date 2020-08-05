@@ -113,8 +113,11 @@ def login():
 def logout():
     """Handle logout of user."""
 
-    # IMPLEMENT THIS
+    do_logout()
+    flash(f"Logged Out Successfully")
+    return redirect("/login")
 
+    #TODO check for security threat if needed
 
 ##############################################################################
 # General user routes:
