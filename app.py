@@ -4,8 +4,8 @@ from flask import Flask, render_template, request, flash, redirect, session, g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
-from forms import UserAddForm, LoginForm, MessageForm
-from models import db, connect_db, User, Message
+from forms import UserAddForm, LoginForm, MessageForm, UserEditForm
+from models import db, connect_db, User, Message, bcrypt
 
 CURR_USER_KEY = "curr_user"
 
@@ -33,9 +33,11 @@ connect_db(app)
 def add_user_to_g():
     """If we're logged in, add curr user to Flask global."""
 
+    # store user instance as a key of g before each request
+    # useful in forms that contain only button
     if CURR_USER_KEY in session:
         g.user = User.query.get(session[CURR_USER_KEY])
-
+    # g.user will always refer to the logged in user who is making requests
     else:
         g.user = None
 
@@ -205,8 +207,41 @@ def stop_following(follow_id):
 @app.route('/users/profile', methods=["GET", "POST"])
 def profile():
     """Update profile for current user."""
+    
+    # check user authorization
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
 
-    # IMPLEMENT THIS
+    form = UserEditForm() #also inherits from UserAddForm()
+    # validate the form 
+    if form.validate_on_submit():
+         user = User.authenticate(g.user.username,
+                                 form.password.data)
+        # print(f'{user}')
+
+        if user:
+            username = form.username.data or g.user.username
+            email = form.email.data or g.user.email
+            image_url = form.image_url.data or g.user.image_url
+            bio = form.bio.data or g.user.bio
+            header_image_url = form.image_url.data or g.user.header_image_url
+
+            # TODO: write a list comprehension function for this:  g.user.FIELD.append(FIELD)
+            g.user.username = username
+            g.user.email = email
+            g.user.image_url = image_url
+            g.user.bio = bio
+            g.user.header_image_url = header_image_url
+            
+            db.session.commit()
+
+            return redirect(f"/users/{g.user.id}")
+        else: 
+            form.password.errors.append("Please enter the right password")
+            return render_template('/users/edit.html', form=form)
+    else:
+        return render_template('/users/edit.html', form=form)
 
 
 @app.route('/users/delete', methods=["POST"])
