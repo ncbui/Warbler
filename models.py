@@ -14,6 +14,7 @@ class Follows(db.Model):
 
     __tablename__ = 'follows'
 
+    # two-component primary key! 
     user_being_followed_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', ondelete="cascade"),
@@ -25,7 +26,7 @@ class Follows(db.Model):
         db.ForeignKey('users.id', ondelete="cascade"),
         primary_key=True,
     )
-
+    # ondelete="cascade"; if a user's record is deleted from User table, delete the user's record in Follows table
 
 class User(db.Model):
     """User in the system."""
@@ -35,6 +36,7 @@ class User(db.Model):
     id = db.Column(
         db.Integer,
         primary_key=True,
+        autoincrement=True
     )
 
     email = db.Column(
@@ -72,15 +74,19 @@ class User(db.Model):
         nullable=False,
     )
 
+    # calling user.messages() will return user's message ordered by timestamp in descending order
     messages = db.relationship('Message', order_by='Message.timestamp.desc()')
 
+    # user.followers returns a list of user instances of users that follow this user
     followers = db.relationship(
         "User",
         secondary="follows",
         primaryjoin=(Follows.user_being_followed_id == id),
         secondaryjoin=(Follows.user_following_id == id)
     )
+    # primaryjoin & secondaryjoin to connect two-component primary key
 
+    # user.following returns a list of user instances that this user is following
     following = db.relationship(
         "User",
         secondary="follows",
@@ -91,14 +97,18 @@ class User(db.Model):
     def __repr__(self):
         return f"<User #{self.id}: {self.username}, {self.email}>"
 
+    # user.is_followed_by(other_user) return False if not followed by; returns True
+    # TODO: fix bug
     def is_followed_by(self, other_user):
         """Is this user followed by `other_user`?"""
 
         found_user_list = [user for user in self.followers if user == other_user]
-        return len(found_user_list) == 1
-
+        return len(found_user_list) == 1 
+    
+    # user.is_following returns T/F
+    # TODO: fix bug
     def is_following(self, other_user):
-        """Is this user following `other_use`?"""
+        """Is this user following `other_use`?""" #other_user?
 
         found_user_list = [user for user in self.following if user == other_user]
         return len(found_user_list) == 1
@@ -151,6 +161,7 @@ class Message(db.Model):
     id = db.Column(
         db.Integer,
         primary_key=True,
+        autoincrement=True
     )
 
     text = db.Column(
@@ -159,7 +170,7 @@ class Message(db.Model):
     )
 
     timestamp = db.Column(
-        db.DateTime,
+        db.DateTime, # TODO: what is the timezone for this? If our default is stored in UTC, should we programatically convert all date times to UTC?
         nullable=False,
         default=datetime.utcnow(),
     )
@@ -171,6 +182,9 @@ class Message(db.Model):
     )
 
     user = db.relationship('User')
+    # TODO: add a backref to relationship in user <line 77>
+    
+
 
 
 def connect_db(app):
