@@ -15,12 +15,14 @@ class Follows(db.Model):
     __tablename__ = 'follows'
 
     # two-component primary key! 
+    #other person
     user_being_followed_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', ondelete="cascade"),
         primary_key=True,
     )
 
+    #me
     user_following_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', ondelete="cascade"),
@@ -184,6 +186,10 @@ class Message(db.Model):
     user = db.relationship('User')
     # TODO: add a backref to relationship in user <line 77>
     
+    def __repr__(self):
+        """ Information about message instance"""
+
+        return f"Message Message_id {self.id} User_id {self.user_id} Time {self.timestamp}"
 
 
 
