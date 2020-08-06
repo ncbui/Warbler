@@ -40,8 +40,7 @@ def add_user_to_g():
     # g.user will always refer to the instance of the user who is making requests
     else:
         g.user = None
-
-
+    # abstraction helps with working with bigger teams 
 
 
 def do_login(user):
@@ -122,6 +121,9 @@ def logout():
     return redirect("/login")
 
     #TODO check for security threat if needed
+    # this does change the world (change session)
+    # browsers can pre-cache GET requests, which may not reflect truth
+    # CODEREVIEW: make this a POST request to have CSRF protection
 
 ##############################################################################
 # General user routes:
@@ -230,19 +232,23 @@ def profile():
             image_url = form.image_url.data or g.user.image_url
             bio = form.bio.data or g.user.bio
             header_image_url = form.image_url.data or g.user.header_image_url
+            location = form.location.data or g.user.location
 
-            # TODO: write a list comprehension function for this:  g.user.FIELD.append(FIELD)
             g.user.username = username
             g.user.email = email
             g.user.image_url = image_url
             g.user.bio = bio
             g.user.header_image_url = header_image_url
-            new_info = [username, email, image_url, bio, header_image_url]
-            db_field = g.user.keys()
-
-            g.user = {db_field:field for field in new_info}
-
+            g.user.location = location
             db.session.commit()
+            
+            # TODO: write a list comprehension function for previous block:  g.user.FIELD.append(FIELD)
+                # saving to work on later
+            # values = [g.user.id, username, email, image_url, bio, header_image_url]
+            # keys = ['id','username', 'email', 'image_url', 'bio', 'header_image_url']
+            # g.user = {db_field:field for field in new_info}
+            # g.user = dict(zip(keys,values))
+            # db.session.commit()
 
             return redirect(f"/users/{g.user.id}")
         else: 

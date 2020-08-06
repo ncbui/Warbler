@@ -15,14 +15,14 @@ class Follows(db.Model):
     __tablename__ = 'follows'
 
     # two-component primary key! 
-    #other person
+    # other person
     user_being_followed_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', ondelete="cascade"),
         primary_key=True,
     )
 
-    #me
+    # me
     user_following_id = db.Column(
         db.Integer,
         db.ForeignKey('users.id', ondelete="cascade"),
@@ -77,16 +77,19 @@ class User(db.Model):
     )
 
     # calling user.messages() will return user's message ordered by timestamp in descending order
-    messages = db.relationship('Message', order_by='Message.timestamp.desc()')
+    # added a backref to messages table
+    messages = db.relationship('Message', 
+                                backref ='messages',
+                                order_by='Message.timestamp.desc()')
 
     # user.followers returns a list of user instances of users that follow this user
+    # primaryjoin & secondaryjoin to connect two-component primary key to access the user table twice
     followers = db.relationship(
         "User",
         secondary="follows",
         primaryjoin=(Follows.user_being_followed_id == id),
         secondaryjoin=(Follows.user_following_id == id)
     )
-    # primaryjoin & secondaryjoin to connect two-component primary key
 
     # user.following returns a list of user instances that this user is following
     following = db.relationship(
@@ -100,7 +103,6 @@ class User(db.Model):
         return f"<User #{self.id}: {self.username}, {self.email}>"
 
     # user.is_followed_by(other_user) return False if not followed by; returns True
-    # TODO: fix bug
     def is_followed_by(self, other_user):
         """Is this user followed by `other_user`?"""
 
@@ -108,7 +110,6 @@ class User(db.Model):
         return len(found_user_list) == 1 
     
     # user.is_following returns T/F
-    # TODO: fix bug
     def is_following(self, other_user):
         """Is this user following `other_use`?""" #other_user?
 
@@ -155,6 +156,7 @@ class User(db.Model):
         return False
 
 
+
 class Message(db.Model):
     """An individual message ("warble")."""
 
@@ -172,7 +174,8 @@ class Message(db.Model):
     )
 
     timestamp = db.Column(
-        db.DateTime, # TODO: what is the timezone for this? If our default is stored in UTC, should we programatically convert all date times to UTC?
+        db.DateTime, 
+        # TODO: what is the timezone for this? If our default is stored in UTC, should we programatically convert all date times to UTC?
         nullable=False,
         default=datetime.utcnow(),
     )
@@ -182,12 +185,9 @@ class Message(db.Model):
         db.ForeignKey('users.id', ondelete='CASCADE'),
         nullable=False,
     )
-
-    user = db.relationship('User')
-    # TODO: add a backref to relationship in user <line 77>
     
     def __repr__(self):
-        """ Information about message instance"""
+        """ Information about message instance."""
 
         return f"Message Message_id {self.id} User_id {self.user_id} Time {self.timestamp}"
 

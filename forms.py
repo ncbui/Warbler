@@ -26,8 +26,11 @@ class LoginForm(FlaskForm):
 
 class UserEditForm(UserAddForm):
     """Form for editing users.
-    TODO: Can we refactor to use UserAddForm to show this, instead of using a separate class
+    TODO: Should we refactor to use UserAddForm to show this instead of using a separate class
     """
 
     bio = TextAreaField('(Optional) Bio', validators=[Optional()])
     header_image_url = StringField('(Optional) Header Image URL')
+    location = StringField('(Optional) Location', validators=[Optional()])
+
+# CODEREVIEW: in larger codebases, a baseUserForm could serve as common; Code should be truthful
