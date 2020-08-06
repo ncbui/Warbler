@@ -216,7 +216,7 @@ def profile():
     form = UserEditForm() #also inherits from UserAddForm()
     # validate the form 
     if form.validate_on_submit():
-         user = User.authenticate(g.user.username,
+        user = User.authenticate(g.user.username,
                                  form.password.data)
         # print(f'{user}')
 
@@ -322,8 +322,12 @@ def homepage():
     """
 
     if g.user:
+        following = g.user.following
+        following_ids = [follower.id for follower in following]
+        
         messages = (Message
                     .query
+                    .filter(Message.user_id.in_(following_ids))
                     .order_by(Message.timestamp.desc())
                     .limit(100)
                     .all())
