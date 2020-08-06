@@ -79,7 +79,6 @@ class User(db.Model):
     # calling user.messages() will return user's message ordered by timestamp in descending order
     # added a backref to messages table
     messages = db.relationship('Message', 
-                                backref ='messages',
                                 order_by='Message.timestamp.desc()')
 
     # user.followers returns a list of user instances of users that follow this user
@@ -98,6 +97,14 @@ class User(db.Model):
         primaryjoin=(Follows.user_following_id == id),
         secondaryjoin=(Follows.user_being_followed_id == id)
     )
+
+    #TODO: Complete this relationship
+    liked_messages = db.relationship(
+        "Like", 
+        secondary="messages", 
+        primaryjoin=(Message.id == id),
+        secondaryjoin=(Like.user_liked_id == id)) #instance user -- its id
+
 
     def __repr__(self):
         return f"<User #{self.id}: {self.username}, {self.email}>"
@@ -185,14 +192,53 @@ class Message(db.Model):
         db.ForeignKey('users.id', ondelete='CASCADE'),
         nullable=False,
     )
-    
+
+    user = db.relationship('User')
+
     def __repr__(self):
         """ Information about message instance."""
 
         return f"Message Message_id {self.id} User_id {self.user_id} Time {self.timestamp}"
 
+class Like(db.Model):
+    """ Connection of a message <-> user who liked the message. """
 
+    __tablename__ = "likes"
 
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        autoincrement=True)
+
+    msg_id = db.Column(
+        db.ForeignKey('messages.id',
+        ondelete="cascade"))
+
+    user_liked_id =  db.Column(
+        db.ForeignKey('users.id',
+        ondelete="cascade"))
+
+    msg_author_id =  db.Column(
+        db.ForeignKey('users.id', 
+        ondelete="cascade"))
+
+    def __repr__(self):
+        """ Information about message Liked by user."""
+
+        return f"Like Message_id {self.msg_id} User_id {self.user_liked_id}"
+
+    
+
+    
+
+    # def is_msg_liked(self, other_user, msg_id):
+    #     """Is this msg liked by other_user """
+
+    #     msg = Like.query.get()        
+       
+    #     return len(found_user_list) == 1
+
+    
 def connect_db(app):
     """Connect this database to provided Flask app.
 
