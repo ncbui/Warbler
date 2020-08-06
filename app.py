@@ -5,7 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
 from forms import UserAddForm, LoginForm, MessageForm, UserEditForm
-from models import db, connect_db, User, Message, bcrypt
+from models import db, connect_db, User, Message
 
 CURR_USER_KEY = "curr_user"
 
@@ -33,13 +33,15 @@ connect_db(app)
 def add_user_to_g():
     """If we're logged in, add curr user to Flask global."""
 
-    # store user instance as a key of g before each request
-    # useful in forms that contain only button
+    # store user instance as a key in the global (g) dictionary provided by Flask
+    # also useful for authenticate user in forms that only contain button
     if CURR_USER_KEY in session:
         g.user = User.query.get(session[CURR_USER_KEY])
-    # g.user will always refer to the logged in user who is making requests
+    # g.user will always refer to the instance of the user who is making requests
     else:
         g.user = None
+
+
 
 
 def do_login(user):
@@ -213,7 +215,9 @@ def profile():
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    form = UserEditForm() #also inherits from UserAddForm()
+    # UserEditForm() also inherits from UserAddForm()
+    form = UserEditForm() 
+    
     # validate the form 
     if form.validate_on_submit():
         user = User.authenticate(g.user.username,
@@ -233,7 +237,11 @@ def profile():
             g.user.image_url = image_url
             g.user.bio = bio
             g.user.header_image_url = header_image_url
-            
+            new_info = [username, email, image_url, bio, header_image_url]
+            db_field = g.user.keys()
+
+            g.user = {db_field:field for field in new_info}
+
             db.session.commit()
 
             return redirect(f"/users/{g.user.id}")
