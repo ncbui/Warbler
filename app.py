@@ -5,7 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
 from forms import UserAddForm, LoginForm, MessageForm, UserEditForm
-from models import db, connect_db, User, Message
+from models import db, connect_db, User, Message, Like
 
 CURR_USER_KEY = "curr_user"
 
@@ -322,6 +322,60 @@ def messages_destroy(message_id):
 
     return redirect(f"/users/{g.user.id}")
 
+##############################################################################
+# Like messages route
+
+
+@app.route("/messages/<int:message_id>/like", methods=["POST"])
+def handle_message_like(message_id):
+    """  """
+
+    message = Message.query.get(message_id)
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    g.user.liked_messages.append(message)
+    db.session.commit()
+
+    print(f"{g.user.liked_messages}")
+    
+    #message_liked = Like(msg_id = message_id, user_liked_id = g.user_id, msg_author_id = message.user_id)
+    
+    # db.session.add(message_liked)
+    # db.session.commit()
+
+    return redirect("/")
+
+# @app.route('/users/follow/<int:follow_id>', methods=['POST'])
+# def add_follow(follow_id):
+#     """Add a follow for the currently-logged-in user."""
+
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/")
+
+#     followed_user = User.query.get_or_404(follow_id)
+#     g.user.following.append(followed_user)
+#     db.session.commit()
+
+#     return redirect(f"/users/{g.user.id}/following")
+
+
+# @app.route('/users/stop-following/<int:follow_id>', methods=['POST'])
+# def stop_following(follow_id):
+#     """Have currently-logged-in-user stop following this user."""
+
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/")
+
+#     followed_user = User.query.get(follow_id)
+#     g.user.following.remove(followed_user)
+#     db.session.commit()
+
+#     return redirect(f"/users/{g.user.id}/following")
 
 ##############################################################################
 # Homepage and error pages
