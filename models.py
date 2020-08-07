@@ -118,11 +118,18 @@ class User(db.Model):
     
     # user.is_following returns T/F
     def is_following(self, other_user):
-        """Is this user following `other_use`?""" #other_user?
+        """Is this user following `other_user`?""" 
 
         found_user_list = [user for user in self.following if user == other_user]
         return len(found_user_list) == 1
+    
+    # check if a user has liked a message with user.is_message_liked(...)
+    def is_message_liked(self, message):
+        """Is this message `liked` by user?"""
 
+        found_message_list = [m for m in self.liked_messages if m == message]
+        return len(found_message_list) == 1
+    
     @classmethod
     def signup(cls, username, email, password, image_url):
         """Sign up user.
@@ -222,25 +229,11 @@ class Like(db.Model):
         ondelete="cascade"),
         nullable=False)
 
-    # msg_author_id =  db.Column(
-    #     db.ForeignKey('users.id', 
-    #     ondelete="cascade"))
-
     def __repr__(self):
         """ Information about message Liked by user."""
 
         return f"Like Message_id {self.msg_id} User_id {self.user_liked_id}"
 
-    
-
-    
-
-    # def is_msg_liked(self, other_user, msg_id):
-    #     """Is this msg liked by other_user """
-
-    #     msg = Like.query.get()        
-       
-    #     return len(found_user_list) == 1
 
     
 def connect_db(app):
