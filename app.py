@@ -18,7 +18,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 toolbar = DebugToolbarExtension(app)
 
@@ -328,7 +328,7 @@ def messages_destroy(message_id):
 
 @app.route("/messages/<int:message_id>/like", methods=["POST"])
 def handle_message_like(message_id):
-    """  """
+    """Add a like to the current user liked_messages list."""
 
     message = Message.query.get(message_id)
 
@@ -337,45 +337,27 @@ def handle_message_like(message_id):
         return redirect("/")
 
     g.user.liked_messages.append(message)
+    # print(f"{g.user.liked_messages}")
     db.session.commit()
 
-    print(f"{g.user.liked_messages}")
-    
-    #message_liked = Like(msg_id = message_id, user_liked_id = g.user_id, msg_author_id = message.user_id)
-    
-    # db.session.add(message_liked)
-    # db.session.commit()
+    return redirect(request.referrer) 
 
-    return redirect("/")
+@app.route("/messages/<int:message_id>/unlike", methods=["POST"])
+def handle_message_unlike(message_id):
+    """Remove a like from the current user liked_messages list."""
 
-# @app.route('/users/follow/<int:follow_id>', methods=['POST'])
-# def add_follow(follow_id):
-#     """Add a follow for the currently-logged-in user."""
+    message = Message.query.get(message_id)
 
-#     if not g.user:
-#         flash("Access unauthorized.", "danger")
-#         return redirect("/")
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
 
-#     followed_user = User.query.get_or_404(follow_id)
-#     g.user.following.append(followed_user)
-#     db.session.commit()
+    g.user.liked_messages.remove(message)
+    # print(f"{g.user.liked_messages}")
+    db.session.commit()
 
-#     return redirect(f"/users/{g.user.id}/following")
+    return redirect(request.referrer)
 
-
-# @app.route('/users/stop-following/<int:follow_id>', methods=['POST'])
-# def stop_following(follow_id):
-#     """Have currently-logged-in-user stop following this user."""
-
-#     if not g.user:
-#         flash("Access unauthorized.", "danger")
-#         return redirect("/")
-
-#     followed_user = User.query.get(follow_id)
-#     g.user.following.remove(followed_user)
-#     db.session.commit()
-
-#     return redirect(f"/users/{g.user.id}/following")
 
 ##############################################################################
 # Homepage and error pages
