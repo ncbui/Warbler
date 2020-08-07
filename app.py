@@ -273,6 +273,42 @@ def delete_user():
 
     return redirect("/signup")
 
+@app.route("/users/<int:user_id>/liked")
+def users_liked_show(user_id):
+    """Show list of messages that the user has liked """
+    
+    # user (not current user)
+    user = User.query.get(user_id)
+    liked_messages = [message.id for message in user.liked_messages]
+
+    messages = (Message
+                .query 
+                .filter(Message.id.in_(liked_messages))
+                .order_by(Message.timestamp.desc())
+                .limit(100)
+                .all())
+    
+    return render_template('/users/liked.html', messages=messages, user=user)
+
+
+    # if g.user:
+    #     following = g.user.following
+    #     following_ids = [follower.id for follower in following]
+        
+    #     messages = (Message
+    #                 .query
+    #                 .filter(Message.user_id.in_(following_ids))
+    #                 .order_by(Message.timestamp.desc())
+    #                 .limit(100)
+    #                 .all())
+    #     print(f'{g.user.password}')
+
+    #     return render_template('home.html', messages=messages)
+
+    # else:
+    #     return render_template('home-anon.html')
+
+
 
 ##############################################################################
 # Messages routes:
@@ -381,6 +417,7 @@ def homepage():
                     .order_by(Message.timestamp.desc())
                     .limit(100)
                     .all())
+        print(f'{g.user.password}')
 
         return render_template('home.html', messages=messages)
 
