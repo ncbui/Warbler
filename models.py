@@ -98,12 +98,12 @@ class User(db.Model):
         secondaryjoin=(Follows.user_being_followed_id == id)
     )
 
-    #TODO: Complete this relationship
+    #TODO: Complete this relationship   
     liked_messages = db.relationship(
-        "Like", 
-        secondary="messages", 
-        primaryjoin=(Message.id == id),
-        secondaryjoin=(Like.user_liked_id == id)) #instance user -- its id
+        "Message", 
+        secondary="likes", 
+        backref="users"
+       ) #instance user -- its id
 
 
     def __repr__(self):
@@ -211,16 +211,20 @@ class Like(db.Model):
         autoincrement=True)
 
     msg_id = db.Column(
+        db.Integer,
         db.ForeignKey('messages.id',
-        ondelete="cascade"))
+        ondelete="cascade"),
+        nullable=False)
 
     user_liked_id =  db.Column(
+        db.Integer,
         db.ForeignKey('users.id',
-        ondelete="cascade"))
+        ondelete="cascade"),
+        nullable=False)
 
-    msg_author_id =  db.Column(
-        db.ForeignKey('users.id', 
-        ondelete="cascade"))
+    # msg_author_id =  db.Column(
+    #     db.ForeignKey('users.id', 
+    #     ondelete="cascade"))
 
     def __repr__(self):
         """ Information about message Liked by user."""
