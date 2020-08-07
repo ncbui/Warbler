@@ -19,6 +19,22 @@
             </span>
             <p>{{ message.text }}</p>
           </div>
+
+          <div class="messages-like"> 
+            {% if g.user %}
+              {% if g.user.is_message_liked(message) %} 
+              <form method="POST"
+                    action="/messages/{{message.id}}/unlike">
+                <button class="btn fabutton"><i class="fas fa-heart"></i></button>
+              </form>
+              {% else %}
+              <form method="POST"
+                action="/messages/{{message.id}}/like">
+                <button class="btn" type="submit"><i class="far fa-heart"></i></button> 
+              </form>
+              {% endif %}
+            {% endif %}
+        </div>
         </li>
 
       {% endfor %}

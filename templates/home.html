@@ -58,12 +58,19 @@
               <p>{{ msg.text }}</p>
             </div>
             <div class="messages-like"> 
-              <!-- Need action also - <i class="far fa-heart"></i>  
-              if user liked it -> dark heart else the lighter one
-              -->
-              <form action="">
-                <i class="fas fa-heart"></i>
-              </form>
+              {% if g.user %}
+                {% if g.user.is_message_liked(msg) %} 
+                <form method="POST"
+                      action="/messages/{{msg.id}}/unlike">
+                  <button class="btn fabutton"><i class="fas fa-heart"></i></button>
+                </form>
+                {% else %}
+                <form method="POST"
+                  action="/messages/{{msg.id}}/like">
+                  <button class="btn" type="submit"><i class="far fa-heart"></i></button> 
+                </form>
+                {% endif %}
+              {% endif %}
           </div>
           </li>
         {% endfor %}
