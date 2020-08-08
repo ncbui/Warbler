@@ -35,7 +35,8 @@
             <li class="stat">
               <p class="small">Likes</p>
               <h4>
-                <a href="/users/{{ user.id }}/liked">{{user.liked_messages | length }}</a>
+                <!-- `|` is called a filter in jinja; python len() -->
+                <a href="/users/{{ user.id }}/liked">{{ user.liked_messages | length }}</a>
               </h4>
             </li>
             <div class="ml-auto">

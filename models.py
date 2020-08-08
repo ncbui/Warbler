@@ -129,6 +129,7 @@ class User(db.Model):
 
         found_message_list = [m for m in self.liked_messages if m == message]
         return len(found_message_list) == 1
+    # TODO: current list comprehension goes over all messages. Python `any()` (equivalent to JS' some())
     
     @classmethod
     def signup(cls, username, email, password, image_url):
@@ -209,7 +210,8 @@ class Message(db.Model):
 
 class Like(db.Model):
     """ Connection of a message <-> user who liked the message. """
-
+    # TODO: we haven't prevented the same user from liking the same message. 
+    #  Could have a two-component primary key OR unique constraint on user & msg
     __tablename__ = "likes"
 
     id = db.Column(
