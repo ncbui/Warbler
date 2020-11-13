@@ -341,12 +341,7 @@ nav + .container {
 }
 
 .card .card-hero {
-  max-width: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  width: 100%;
 }
 
 .card-image {
@@ -379,6 +374,7 @@ nav + .container {
 }
 
 .image-wrapper {
+  height: inherit;
   padding-bottom: 36%;
   position: relative;
   overflow: hidden;
