@@ -117,7 +117,7 @@ def logout():
     """Handle logout of user."""
 
     do_logout()
-    flash(f"Logged Out Successfully")
+    flash(f"Logged Out", "success")
     return redirect("/login")
 
     #TODO check for security threat if needed
