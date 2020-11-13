@@ -120,11 +120,6 @@ def logout():
     flash(f"Logged Out", "success")
     return redirect("/login")
 
-    #TODO check for security threat if needed
-    # this does change the world (change session)
-    # browsers can pre-cache GET requests, which may not reflect truth
-    # CODEREVIEW: make this a POST request to have CSRF protection
-
 ##############################################################################
 # General user routes:
 
@@ -145,6 +140,7 @@ def list_users():
     return render_template('users/index.html', users=users)
 
 
+# TODO: prevent access if not logged
 @app.route('/users/<int:user_id>')
 def users_show(user_id):
     """Show user profile."""
@@ -190,7 +186,7 @@ def add_follow(follow_id):
     g.user.following.append(followed_user)
     db.session.commit()
 
-    return redirect(f"/users/{g.user.id}/following")
+    return redirect(request.referrer)
 
 
 @app.route('/users/stop-following/<int:follow_id>', methods=['POST'])
@@ -205,7 +201,7 @@ def stop_following(follow_id):
     g.user.following.remove(followed_user)
     db.session.commit()
 
-    return redirect(f"/users/{g.user.id}/following")
+    return redirect(request.referrer)
 
 
 @app.route('/users/profile', methods=["GET", "POST"])
