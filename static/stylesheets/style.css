@@ -201,7 +201,7 @@ nav + .container {
   margin-top: -16px;
   opacity: 0.7;
   background-size: cover;
-  background-position: center center;
+  background-position: center bottom;
   position: relative;
   overflow: hidden;
 }
@@ -333,7 +333,15 @@ nav + .container {
 
 .card-hero {
   min-width: 100%;
-  min-height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.card .card-hero {
+  max-width: 100%;
   position: absolute;
   top: 0;
   right: 0;
@@ -371,8 +379,6 @@ nav + .container {
 }
 
 .image-wrapper {
-  width: 100%;
-  height: inherit;
   padding-bottom: 36%;
   position: relative;
   overflow: hidden;
