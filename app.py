@@ -140,7 +140,7 @@ def list_users():
     return render_template('users/index.html', users=users)
 
 
-# TODO: prevent access if not logged
+# TODO: show follow button even if user not logged in, if !logged, pop up to login or signup
 @app.route('/users/<int:user_id>')
 def users_show(user_id):
     """Show user profile."""
@@ -220,7 +220,6 @@ def profile():
     if form.validate_on_submit():
         user = User.authenticate(g.user.username,
                                  form.password.data)
-        # print(f'{user}')
 
         if user:
             username = form.username.data or g.user.username
@@ -369,7 +368,6 @@ def handle_message_like(message_id):
         return redirect("/")
 
     g.user.liked_messages.append(message)
-    # print(f"{g.user.liked_messages}")
     db.session.commit()
 
     return redirect(request.referrer) 
@@ -385,7 +383,6 @@ def handle_message_unlike(message_id):
         return redirect("/")
 
     g.user.liked_messages.remove(message)
-    # print(f"{g.user.liked_messages}")
     db.session.commit()
 
     return redirect(request.referrer)
@@ -413,7 +410,6 @@ def homepage():
                     .order_by(Message.timestamp.desc())
                     .limit(100)
                     .all())
-        print(f'{g.user.password}')
 
         return render_template('home.html', messages=messages)
 
