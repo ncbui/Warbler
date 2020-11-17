@@ -24,6 +24,10 @@ Activate virtual environment:
 `$ source venv/bin/activate`
 `(venv) $ flask run`
 
+## View site:
+
+Browser URL: localhost:5000
+
 
 ## Tests
 
