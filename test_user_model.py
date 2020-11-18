@@ -29,7 +29,7 @@ db.create_all()
 
 
 class UserModelTestCase(TestCase):
-    """Test views for messages."""
+    """Test model for users."""
 
     def setUp(self):
         """Create test client, add sample data."""
@@ -78,32 +78,55 @@ class UserModelTestCase(TestCase):
         self.assertEqual(len(u.messages), 0)
         self.assertEqual(len(u.followers), 0)
 
-        # Repr method
+        # Repr method should work
         self.assertEqual(
             u.__repr__(), 
             "<User #1: testuser, test@test.com>"
             )
 
     def test_is_following(self):
-        """Does is_following return True if user is following the user
-        and False if user is not following the user?"""
+        """Does is_following method work?"""
         self.u1.following.append(self.u2)
         db.session.commit()
 
+        # u1 should be following u2
         self.assertTrue(self.u1.is_following(self.u2))
+        # u2 should not be following u1
         self.assertFalse(self.u2.is_following(self.u1))
 
     def test_is_followed_by(self):
-        """Does is_followed_by return True if user is following the user
-        and False if user is not following the user?"""
+        """Does is_followed_by work?"""
         self.u1.following.append(self.u2)
         db.session.commit()
 
+        # u2 should be followed by u1
         self.assertTrue(self.u2.is_followed_by(self.u1))
+        # u1 should not be followed by u2
         self.assertFalse(self.u1.is_followed_by(self.u2))
 
     def test_user_sign_up(self):
-        """Does User.signup successfully create a new user given valid credentials?
-        and fail if any of the validations (e.g. uniqueness, non-nullable fields) fail?"""
+        """Does User.signup work?"""
 
-        u = User.signup()
+        u3 = User.signup("u3", "u3@email.com", "password", None)
+        uid3 = 3333
+        u3.id = uid3
+
+        # Should successfilly create a new user given valid credentials?
+        self.assertTrue(u3)
+
+        # Should fail if any of the validations (e.g. uniqueness, non-nullable fields)
+        with self.assertRaises(ValueError):
+            User.signup("testFail", None, None, None)
+        self.assertRaises(
+            ValueError, lambda: User.signup("testFail", None, None, None))
+
+
+    def test_user_authenticate(self):
+        """Does User.authenticate method work?"""
+
+        # Should return true if user credentials are valid
+        self.assertTrue(User.authenticate("test1", "password"))
+        # Should return false if user password is invalid
+        self.assertFalse(User.authenticate("test1", "passwordFail"))
+        # Should return false if username is invalid valid
+        self.assertFalse(User.authenticate("testFail", "password"))
