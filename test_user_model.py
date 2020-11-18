@@ -101,3 +101,9 @@ class UserModelTestCase(TestCase):
 
         self.assertTrue(self.u2.is_followed_by(self.u1))
         self.assertFalse(self.u1.is_followed_by(self.u2))
+
+    def test_user_sign_up(self):
+        """Does User.signup successfully create a new user given valid credentials?
+        and fail if any of the validations (e.g. uniqueness, non-nullable fields) fail?"""
+
+        u = User.signup()
