@@ -1,14 +1,47 @@
 {% extends 'base.html' %}
 
 {% block searchbox %}
-  {# don't show this on anon homepage #}
+{# don't show this on anon homepage #}
 {% endblock %}
 
 {% block content %}
-  <div class="home-hero">
-    <h1>What's Happening?</h1>
-    <h4>New to Warbler?</h4>
-    <p>Sign up now to get your own personalized timeline!</p>
-    <a href="/signup" class="btn btn-primary">Sign up</a>
-  </div>
+<div class="home-action home col-12 col-md-6 ml-auto">
+    <div class="home-container">
+        <h3>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</h3>
+        <p>Join Warbler today.</p>
+        <p>
+            <a href="/signup" class="btn btn-primary col-12">Sign up</a>
+        </p>
+        <p>
+            <a href="/login" class="btn btn-outline-light col-12">Log in</a>
+        </p>
+    </div>
+</div>
+
+<div class="home-hero home col-12 col-md-6 mr-auto">
+    <div class="home-container">
+        <h1>What's Happening?</h1>
+        <h4>New to Warbler?</h4>
+        <p>Sign up now to get your own personalized timeline!</p>
+    </div>
+</div>
+<footer fluid class="home-footer col-12 fixed-bottom text-center">
+    <div class="container">
+    <a>Lorem ipsum </a>
+    <a>dolor sit </a>
+    <a>amet </a>
+    <a>consectetur </a>
+    <a>adipisicing </a>
+    <a>elit </a>
+    <a>Excepturi </a>
+    <a>aut </a>
+    <a>dignissimos </a>
+    <a>libero </a>
+    <a>error amet </a>
+    <a>Natus</a>
+    <a>corrupti minima </a>
+    <a>veritatis </a>
+    <a>sunt id</a>
+    </div>
+</footer>
 {% endblock %}

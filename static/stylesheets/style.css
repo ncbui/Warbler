@@ -1,7 +1,7 @@
 /* ====================== General */
 
 body {
-  background-color: #e6ecf0;
+  background-color: #212738;
 }
 
 body.error-404 {
@@ -392,33 +392,55 @@ p.card-bio {
 /* ============================ Signed out home */
 
 .home-hero {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  width: 100vw;
-  left: 0;
+  /* position: absolute; */
+    left: 0;
   z-index: -1;
   background-image: url("/static/images/signed-out-home.jpg");
   background-size: cover;
   background-position: center center;
+    display: inline;
+       min-height: 50vh;
+}
+
+.home-action {
+  right: 0;
+  top: 0;
+  margin-left:auto;
+  z-index: -1;
+  /* position: absolute; */
+   display: inline;
+
+}
+
+.home {
+  /* height: 40vh; */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  /* position: absolute; */
   color: #fff;
-  text-align: center;
+  text-align: left;
   padding: 1rem;
   text-shadow: 0 0 8px #66757f;
 }
 
-.home-hero .btn {
+@media screen and (min-width: 790px) {
+    .home {
+        height: 90vh;
+        position: absolute;
+    }
+
+}
+
+.home .btn {
   text-shadow: none;
   position: relative;
   z-index: 1;
-  width: 150px;
+  width: 100%;
 }
 
-.home-hero h1 {
+.home h1 {
   margin-bottom: 4rem;
 }
 
@@ -429,7 +451,24 @@ p.card-bio {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.home-container {
+    max-width: 500px;
+} 
+
+.home-footer {
+    color: #98A4C3;
+}
+
+.home-footer a {
+    margin: 0 .2rem;
+    /* display: inline; */
+}
+
+.home-footer .container {
+    padding: 10px;
 }
 
 /* ============================== Signed in Home */
