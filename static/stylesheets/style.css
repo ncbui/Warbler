@@ -403,43 +403,40 @@ p.card-bio {
 /* ============================ Signed out home */
 
 .home-hero {
-  /* position: absolute; */
     left: 0;
   background-image: url("/static/images/signed-out-home.jpg");
   background-size: cover;
   background-position: center center;
-    display: inline;
-       /* min-height: 50vh; */
+  /* width: 100%; */
 }
 
 .home-action {
   right: 0;
-  top: 0;
-  margin-left:auto;
+  /* top: 0; */
+  /* margin-left:auto; */
   /* position: absolute; */
-   display: inline;
-    min-height: 50vh;
+   /* display: inline; */
+    /* min-height: 50vh; */
 }
 
 .home {
-  /* height: 40vh; */
+  /* min-height: 30vh; */
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  /* position: absolute; */
+  position: relative;
   color: #fff;
   text-align: left;
   padding: 1rem;
   text-shadow: 0 0 8px #66757f;
 }
 
-@media screen and (min-width: 790px) and (min-height: 500px) {
+@media (min-width: 615px) {
     .home {
-        height: 90vh;
+        min-height: 90vh;
         position: absolute;
     }
-
 }
 
 .home .btn {
@@ -484,14 +481,15 @@ h2 .i{
 
 .home-footer {
     color: #98A4C3;
-    text-shadow: 0 0 8px #66757f;
-    position: absolute;
-    bottom: 0;
+    text-shadow: 0 0 2px #66757f;
+    margin: 1rem 0;
+
 }
 
 .home-footer a {
     margin: 0 .2rem;
-    /* display: inline; */
+    text-decoration: none;
+    color: #98A4C3;
 }
 
 .home-footer .container {
