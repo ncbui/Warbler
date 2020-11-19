@@ -28,6 +28,10 @@ Activate virtual environment:
 
 Browser URL: localhost:5000
 
+## Deploy changes (as of 19 Nov 20202)
+
+`git push heroku ncbui-refactor:master`
+
 
 ## Tests
 
