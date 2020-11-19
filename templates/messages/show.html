@@ -12,7 +12,7 @@
           </a>
           <div class="message-area">
             <div class="message-heading">
-            {{ user.username }} <a href="/users/{{ message.user.id }}">@{{ message.user.username }}</a>
+              <a href="/users/{{ message.user.id }}">@{{ message.user.username }}</a>
               {% if g.user %}
                 {% if g.user.id == message.user.id %}
                   <form method="POST"
