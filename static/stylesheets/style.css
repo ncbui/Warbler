@@ -23,7 +23,7 @@ body.error-404 {
 /* ======================= Nav */
 
 .navbar {
-  background-color: #fff;
+  background-color: #212738;
   height: 46px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
   margin-bottom: 1rem;
@@ -32,7 +32,7 @@ body.error-404 {
 }
 
 .navbar a {
-  color: #66757f;
+  color: #fff;
   font-size: 13px;
   font-weight: bold;
 }
@@ -89,7 +89,7 @@ nav form.navbar-form {
   bottom: 4px;
   z-index: 1;
   padding: 0;
-  color: #66757f;
+  color: #fff;
 }
 
 #search.form-control + .btn:active,
@@ -139,7 +139,7 @@ nav form.navbar-form {
 }
 
 .onboarding {
-  background-color: #fff;
+  background-color: #212738;
 }
 
 @media (max-width: 468px) {
@@ -152,10 +152,14 @@ nav + .container {
   margin-bottom: 1rem;
 }
 
+.container {
+    overflow: scroll;
+}
 /* ===================== User profile */
 
 .join-message {
   margin-top: 100px;
+  color: #fff;
 }
 
 #profile-image,
@@ -215,7 +219,7 @@ nav + .container {
 }
 
 .row.full-width {
-  background-color: #fff;
+  background-color: #212738;
   margin-top: -80px;
   margin-bottom: 1rem;
   border-bottom: 1px solid #ccc;
@@ -394,22 +398,20 @@ p.card-bio {
 .home-hero {
   /* position: absolute; */
     left: 0;
-  z-index: -1;
   background-image: url("/static/images/signed-out-home.jpg");
   background-size: cover;
   background-position: center center;
     display: inline;
-       min-height: 50vh;
+       /* min-height: 50vh; */
 }
 
 .home-action {
   right: 0;
   top: 0;
   margin-left:auto;
-  z-index: -1;
   /* position: absolute; */
    display: inline;
-
+    min-height: 50vh;
 }
 
 .home {
@@ -425,7 +427,7 @@ p.card-bio {
   text-shadow: 0 0 8px #66757f;
 }
 
-@media screen and (min-width: 790px) {
+@media screen and (min-width: 790px) and (min-height: 500px) {
     .home {
         height: 90vh;
         position: absolute;
@@ -440,8 +442,19 @@ p.card-bio {
   width: 100%;
 }
 
-.home h1 {
+.home .btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.home h1,
+.home h3 {
+  /* margin-top: 1rem;   */
   margin-bottom: 4rem;
+}
+
+h2 .i{
+    margin-bottom: 2rem;
 }
 
 .home-hero:before {
@@ -460,6 +473,9 @@ p.card-bio {
 
 .home-footer {
     color: #98A4C3;
+    text-shadow: 0 0 8px #66757f;
+    position: absolute;
+    bottom: 0;
 }
 
 .home-footer a {
@@ -468,7 +484,7 @@ p.card-bio {
 }
 
 .home-footer .container {
-    padding: 10px;
+    padding: 1rem;
 }
 
 /* ============================== Signed in Home */
