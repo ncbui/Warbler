@@ -2,6 +2,8 @@
 
 body {
   background-color: #212738;
+  color: #fff;
+
 }
 
 body.error-404 {
@@ -162,8 +164,6 @@ nav + .container {
   /* color: #fff; */
 }
 
-
-
 #profile-image,
 #profile-avatar {
   border-radius: 100%;
@@ -179,7 +179,7 @@ nav + .container {
 #profile-avatar {
   width: 200px;
   height: 200px;
-  border: 5px solid #fff;
+  border: 5px solid transparent;
   margin-top: -120px;
   z-index: 1;
   position: relative;
@@ -224,8 +224,8 @@ nav + .container {
   background-color: #212738;
   margin-top: -80px;
   margin-bottom: 1rem;
-  border-bottom: 1px solid #ccc;
-  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
   height: 60px;
   align-items: center;
@@ -265,6 +265,7 @@ nav + .container {
 
 #messages {
   position: relative;
+
 }
 
 #messages .message-link {
@@ -279,16 +280,20 @@ nav + .container {
 #messages .list-group-item a:not(.message-link) {
   position: relative;
   z-index: 2;
+  
 }
 
 #messages .list-group-item {
   display: flex;
   align-items: flex-start;
   padding: 7px 20px 12px;
+    background-color: transparent;
+  color: #fff;
 }
 
 #messages:not(.no-hover) .list-group-item:hover {
-  background-color: #e6ecf0;
+  background-color: rgba(255, 255, 255, 0.05);
+  transition-duration: 300;
 }
 
 #sidebar-username {
@@ -315,15 +320,15 @@ nav + .container {
   width: 100%;
   padding-bottom: 100%;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid transparent;
   position: relative;
-  background: white;
+  background: transparent;
   margin-top: 20px;
 }
 
 .user-card > div {
   position: absolute;
-  background: white;
+  background: transparent;
 }
 
 .user-card form {
@@ -351,7 +356,7 @@ nav + .container {
 }
 
 .card-image {
-  border: 3px solid #fff;
+  border: 3px solid transparent;
   border-radius: 70px;
   height: 70px;
   width: 70px;
@@ -539,8 +544,8 @@ h2 .i{
 }
 
 .login {
-    color: #fff;
-    margin-top: 100px;
+color: #fff;
+margin-top: 100px;
 }
 
 .login h2 {
@@ -572,7 +577,7 @@ h2 .i{
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #62676c;
+
 }
 
 #messages.no-hover .message-area {
