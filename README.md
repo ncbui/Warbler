@@ -30,7 +30,11 @@ Browser URL: localhost:5000
 
 ## Deploy changes (as of 19 Nov 20202)
 
-`git push heroku ncbui-refactor:master`
+Update the current branch of latest changes:
+`(git)-[BRANCH] - git push`
+
+
+`git push heroku BRANCH:master`
 
 
 ## Tests
