@@ -159,8 +159,10 @@ nav + .container {
 
 .join-message {
   margin-top: 100px;
-  color: #fff;
+  /* color: #fff; */
 }
+
+
 
 #profile-image,
 #profile-avatar {
@@ -446,6 +448,10 @@ p.card-bio {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
 }
+.home .btn-outline-light:hover:active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
 
 .home h1,
 .home h3 {
@@ -531,6 +537,21 @@ h2 .i{
   font-weight: bold;
   padding: 12px;
 }
+
+.login {
+    color: #fff;
+    margin-top: 100px;
+}
+
+.login h2 {
+    margin-bottom: 2rem;
+}
+
+.login-helper {
+    margin-top: 2rem;
+}
+
+
 
 /* =========================== Edit Page */
 
